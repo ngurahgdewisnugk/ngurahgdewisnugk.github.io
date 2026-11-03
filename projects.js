@@ -19,5 +19,15 @@ const projects = [
         ],
         repoUrl: "",
         demoUrl: ""
+    }, {
+        title: "My Second NextWork Project",
+        category: "NextWork",
+        summary: "Use this third entry to prove that a content update can travel through the sam" +
+                "e deployment pipeline.",
+        skills: [
+            "Git", "GitHub Actions", "CI/CD"
+        ],
+        repoUrl: "",
+        demoUrl: ""
     }
 ];
