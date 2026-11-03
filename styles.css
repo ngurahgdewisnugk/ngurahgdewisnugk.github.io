@@ -50,6 +50,21 @@ input:focus-visible {
     text-decoration: none;
 }
 .filters,
+.search-label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+}
+#project-search {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    color: var(--text);
+    margin-bottom: 1rem;
+    max-width: 520px;
+    padding: 0.8rem 1rem;
+    width: 100%;
+}
 .hero-actions,
 .project-links,
 .skill-list,

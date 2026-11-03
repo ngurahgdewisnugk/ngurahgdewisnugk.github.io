@@ -2,6 +2,10 @@ const projectGrid = document.getElementById("project-grid");
 const projectStatus = document.getElementById("project-status");
 const filterButtons = document.querySelectorAll(".filter-button");
 const printResumeButton = document.getElementById("print-resume");
+const projectSearch = document.getElementById("project-search");
+
+let activeFilter = "All";
+let searchQuery = "";
 
 function createProjectCard(project) {
     const card = document.createElement("article");
@@ -52,10 +56,17 @@ function createProjectCard(project) {
     return card;
 }
 
-function renderProjects(filter = "All") {
-    const visibleProjects = filter === "All"
-        ? projects
-        : projects.filter((project) => project.category === filter);
+function renderProjects() {
+    const visibleProjects = projects.filter((project) => {
+        const matchesCategory = activeFilter === "All" || project.category === activeFilter;
+        const searchableText = [
+            project.title, project.category, project.summary, ...project.skills
+        ]
+            .join(" ")
+            .toLowerCase();
+        const matchesSearch = searchableText.includes(searchQuery);
+        return matchesCategory && matchesSearch;
+    });
     projectGrid.textContent = "";
     visibleProjects.forEach(
         (project) => projectGrid.appendChild(createProjectCard(project))
@@ -65,9 +76,10 @@ function renderProjects(filter = "All") {
         : "projects";
     projectStatus.textContent = `${visibleProjects.length} ${label} shown`;
 }
+
 filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
-        const selectedFilter = button.dataset.filter;
+        activeFilter = button.dataset.filter;
         filterButtons.forEach((candidate) => {
             const isActive = candidate === button;
             candidate
@@ -75,8 +87,15 @@ filterButtons.forEach((button) => {
                 .toggle("active", isActive);
             candidate.setAttribute("aria-pressed", String(isActive));
         });
-        renderProjects(selectedFilter);
+        renderProjects();
     });
+});
+projectSearch.addEventListener("input", () => {
+    searchQuery = projectSearch
+        .value
+        .trim()
+        .toLowerCase();
+    renderProjects();
 });
 printResumeButton.addEventListener("click", () => {
     window.print();
